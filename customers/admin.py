@@ -9,7 +9,7 @@ class CustomerUserAdmin(admin.ModelAdmin):
     search_fields = ('username', 'email', 'phone_number', 'full_name')
     ordering = ('-date_joined',)
     list_per_page = 20  
-    readonly_fields = ('date_joined', 'updated_at', 'avatar_preview', 'avatar_preview_detail')  # Đưa avatar_preview_detail vào readonly_fields
+    readonly_fields = ('date_joined', 'updated_at', 'avatar_preview', 'avatar_preview_detail') 
 
     fieldsets = (
         ("Thông tin tài khoản", {

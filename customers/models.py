@@ -41,6 +41,10 @@ class CustomerUser(models.Model):
     updated_at = models.DateTimeField(auto_now=True)  # Ngày cập nhật cuối
     is_active = models.BooleanField(default=True)  # Trạng thái tài khoản
 
+    class Meta:
+        verbose_name = "Khách Hàng"
+        verbose_name_plural = "Danh sách Khách Hàng"
+
     def __str__(self):
         return self.username
 
