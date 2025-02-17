@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
+    'customers',
     'rest_framework',
     'corsheaders',
 ]
@@ -120,8 +120,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-# khai báo AUTH_USER_MODEL để Django sử dụng model mới
-AUTH_USER_MODEL = 'users.CustomUser'
 
 STATIC_URL = 'static/'
 
