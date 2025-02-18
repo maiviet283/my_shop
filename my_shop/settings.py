@@ -144,5 +144,5 @@ JAZZMIN_SETTINGS = {
         {"model": "auth.User"},
         {"app": "my_shop"},
     ],
-    "show_ui_builder": True,  # Bật tính năng kéo thả UI
+    "show_ui_builder": False,  # Bật tính năng kéo thả UI
 }
