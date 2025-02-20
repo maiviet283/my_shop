@@ -1,9 +1,8 @@
 Để quản lý một dự án Django cho shop quần áo, bạn có thể chia thành các ứng dụng (`app`) nhỏ theo chức năng để dễ quản lý và phát triển. Dưới đây là các ứng dụng quan trọng bạn nên tạo:  
 
-### 1. **users** (Quản lý người dùng)  
-   - Xác thực tài khoản (Đăng nhập, đăng ký, quên mật khẩu)  
-   - Hồ sơ người dùng  
-   - Vai trò (Admin, nhân viên, khách hàng)  
+### 1. **customers** (Quản lý Khách Hàng)  
+   - Hồ sơ người dùng Khách Hàng
+   - Vai trò khách hàng
 
 ```bash
 python manage.py startapp users
