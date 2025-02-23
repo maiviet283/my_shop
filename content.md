@@ -32,18 +32,7 @@ python manage.py startapp orders
 
 ---
 
-### 4. **inventory** (Quản lý kho hàng)  
-   - Theo dõi số lượng sản phẩm  
-   - Cập nhật khi có đơn hàng mới  
-   - Nhập hàng / xuất hàng  
-
-```bash
-python manage.py startapp inventory
-```
-
----
-
-### 5. **payments** (Thanh toán)  
+### 4. **payments** (Thanh toán)  
    - Tích hợp cổng thanh toán (VNPay, Momo, PayPal)  
    - Quản lý giao dịch  
 
@@ -53,32 +42,12 @@ python manage.py startapp payments
 
 ---
 
-### 6. **shipping** (Giao hàng)  
-   - Địa chỉ giao hàng  
-   - Trạng thái vận chuyển  
-
-```bash
-python manage.py startapp shipping
-```
-
----
-
-### 7. **reviews** (Đánh giá sản phẩm)  
+### 5. **reviews** (Đánh giá sản phẩm)  
    - Khách hàng đánh giá sản phẩm  
    - Quản lý bình luận  
 
 ```bash
 python manage.py startapp reviews
-```
-
----
-
-### 8. **coupons** (Mã giảm giá)  
-   - Tạo và quản lý mã giảm giá  
-   - Áp dụng mã giảm giá khi thanh toán  
-
-```bash
-python manage.py startapp coupons
 ```
 
 ---
