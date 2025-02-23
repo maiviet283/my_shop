@@ -145,7 +145,6 @@ JAZZMIN_SETTINGS = {
     "topmenu_links": [
         {"name": "Trang Chủ", "url": "admin:index", "permissions": ["auth.view_user"]},
         {"model": "auth.User"},
-        {"app": "my_shop"},
     ],
     "show_ui_builder": False,  # Bật tính năng kéo thả UI
 }

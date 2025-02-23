@@ -15,8 +15,8 @@ admin.site.register(Category, CategoryAdmin)
 class ProductImageInline(admin.TabularInline):  # Hoặc admin.StackedInline để hiển thị dạng khối
     model = ProductImage
     extra = 3  # Số lượng form rỗng mặc định để upload nhiều ảnh
-    fields = ('image_preview','alt_text','image',)
-    readonly_fields = ('image_preview',)  # Xem trước ảnh trong admin
+    fields = ('image_preview', 'alt_text', 'image_link')
+    readonly_fields = ('image_preview', 'image_link')  # Xem trước ảnh và hiển thị link gọn
 
     def image_preview(self, obj):
         """Hiển thị ảnh preview"""
@@ -25,6 +25,14 @@ class ProductImageInline(admin.TabularInline):  # Hoặc admin.StackedInline đ�
         return "(Không có ảnh)"
 
     image_preview.short_description = "Xem trước ảnh"
+
+    def image_link(self, obj):
+        """Hiển thị nút xem ảnh"""
+        if obj.image:
+            return format_html('<a href="{}" target="_blank" style="display: inline-block; padding: 5px 10px; background-color: #007bff; color: white; border-radius: 5px; text-decoration: none;">Xem ảnh</a>', obj.image.url)
+        return "(Không có ảnh)"
+    
+    image_link.short_description = "Liên kết ảnh"
 
 # Admin cho Product
 class ProductAdmin(admin.ModelAdmin):

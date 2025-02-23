@@ -1,15 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from .models import CustomerUser
-from orders.models import Cart, Order
-
-class CartInline(admin.TabularInline):  # Hiển thị giỏ hàng dạng bảng
-    model = Cart
-    extra = 0
-
-class OrderInline(admin.TabularInline):  # Hiển thị đơn hàng dạng bảng
-    model = Order
-    extra = 0
 
 @admin.register(CustomerUser)
 class CustomerUserAdmin(admin.ModelAdmin):
@@ -19,7 +10,6 @@ class CustomerUserAdmin(admin.ModelAdmin):
     ordering = ('-date_joined',)
     list_per_page = 20  
     readonly_fields = ('date_joined', 'updated_at', 'avatar_preview', 'avatar_preview_detail') 
-    inlines = [CartInline, OrderInline]  # ✅ Hiển thị giỏ hàng & đơn hàng trong trang user
 
     fieldsets = (
         ("Thông tin tài khoản", {
