@@ -12,6 +12,10 @@ class Cart(models.Model):
     def clear_cart(self):
         self.items.all().delete()
 
+    class Meta:
+        verbose_name = "Giỏ Hàng"
+        verbose_name_plural = "Giỏ Hàng"
+
     def __str__(self):
         return f"Giỏ hàng của {self.user.username}"
 
@@ -47,7 +51,10 @@ class Order(models.Model):
         self.total_price = sum(item.total_price() for item in self.items.all())
         super().save(*args, **kwargs)  # Lưu lại với total_price đã cập nhật
 
-    
+    class Meta:
+        verbose_name = "Đơn Hàng"
+        verbose_name_plural = "Đơn Hàng"
+
     def __str__(self):
         return f"Đơn hàng #{self.id} - {self.user.username} ({self.status})"
 

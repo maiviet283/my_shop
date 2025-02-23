@@ -43,7 +43,7 @@ class CustomerUser(models.Model):
 
     class Meta:
         verbose_name = "Khách Hàng"
-        verbose_name_plural = "Danh sách Khách Hàng"
+        verbose_name_plural = "Khách Hàng"
 
     def __str__(self):
         return self.username

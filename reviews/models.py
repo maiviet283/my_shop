@@ -17,8 +17,8 @@ class Review(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "Đánh Giá Sản Phẩm"
-        verbose_name_plural = "Danh Sách Đánh Giá Sản Phẩm"
+        verbose_name = "Đánh Giá"
+        verbose_name_plural = "Đánh Giá"
         ordering = ['-created_at']
         unique_together = ('product', 'user')  # Ràng buộc mỗi user chỉ được đánh giá một sản phẩm một lần
 

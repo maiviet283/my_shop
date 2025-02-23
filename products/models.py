@@ -6,7 +6,7 @@ class Category(models.Model):
     
     class Meta:
         verbose_name = "Danh Mục"
-        verbose_name_plural = "Danh Mục Sản Phẩm"
+        verbose_name_plural = "Danh Mục"
     
     def __str__(self):
         return self.name
@@ -33,7 +33,7 @@ class Product(models.Model):
     
     class Meta:
         verbose_name = "Sản Phẩm"
-        verbose_name_plural = "Danh Sách Sản Phẩm"
+        verbose_name_plural = "Sản Phẩm"
     
     def __str__(self):
         return self.name
