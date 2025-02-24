@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'products',
     'reviews',
     'orders',
+    'payments',
     'rest_framework',
     'corsheaders',
 ]
