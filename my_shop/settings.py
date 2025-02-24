@@ -12,6 +12,15 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1.5),  # Thời gian sống của Access Token
+    'REFRESH_TOKEN_LIFETIME': timedelta(minutes=3),     # Thời gian sống của Refresh Token
+    'ROTATE_REFRESH_TOKENS': True,                 # Có tự động làm mới Refresh Token khi làm mới Access Token hay không
+    'BLACKLIST_AFTER_ROTATION': True,               # Có vô hiệu hóa Refresh Token sau khi nó được làm mới hay không
+    'UPDATE_LAST_LOGIN': False,                     # Có cập nhật thời gian đăng nhập cuối cùng của user hay không
+}
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,6 +54,8 @@ INSTALLED_APPS = [
     'orders',
     'payments',
     'rest_framework',
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
 ]
 
@@ -56,7 +67,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'my_shop.urls'
 
@@ -132,6 +146,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# CKEDITOR_UPLOAD_PATH = 'ckeditor/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -148,4 +164,13 @@ JAZZMIN_SETTINGS = {
         {"model": "auth.User"},
     ],
     "show_ui_builder": False,  # Bật tính năng kéo thả UI
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 }
