@@ -22,6 +22,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/customers/', include('customers.urls')),
+    path('api/products/', include('products.urls')),
 ] 
 
 if settings.DEBUG:  # Chỉ dùng khi phát triển (development)

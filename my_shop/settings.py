@@ -166,6 +166,7 @@ JAZZMIN_SETTINGS = {
     "show_ui_builder": False,  # Bật tính năng kéo thả UI
 }
 
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
