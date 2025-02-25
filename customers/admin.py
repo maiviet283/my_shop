@@ -7,7 +7,7 @@ class CustomerUserAdmin(admin.ModelAdmin):
     list_display = ('id', 'avatar_preview', 'username', 'email', 'phone_number', 'date_joined', 'is_active')
     list_filter = ('is_active', 'gender', 'date_joined')
     search_fields = ('username', 'email', 'phone_number', 'full_name')
-    ordering = ('-date_joined',)
+    ordering = ['-date_joined']
     list_per_page = 20  
     readonly_fields = ('date_joined', 'updated_at', 'avatar_preview', 'avatar_preview_detail') 
 
