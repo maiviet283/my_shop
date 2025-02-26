@@ -33,3 +33,36 @@ class RegisterView(APIView):
                 "suggestion": "Vui lòng sử dụng phương thức POST."
             }, status=status.HTTP_405_METHOD_NOT_ALLOWED)
         return super().handle_exception(exc)
+
+
+    
+class LoginView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self,request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        try:
+            user = CustomerUser.objects.get(username=username)
+            
+            if check_password(password,user.password):
+                refresh_token = RefreshToken()
+                refresh_token["id"] = user.pk
+                refresh_token["username"] = user.username
+                access_token = refresh_token.access_token
+
+                return Response({
+                    'access':str(access_token),
+                    'refresh':str(refresh_token)
+                })
+            
+            else: 
+                return Response({
+                    'error':'Tên đăng nhập hoặc mật khẩu không đúng'
+                },status=status.HTTP_400_BAD_REQUEST)
+            
+        except CustomerUser.DoesNotExist:
+            return Response({
+                'error':'Tên đăng nhập hoặc mật khẩu không đúng'
+            }, status=status.HTTP_401_UNAUTHORIZED)
