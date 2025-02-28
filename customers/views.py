@@ -1,5 +1,3 @@
-from .models import CustomerUser
-from .serializers import CustomerUserSerializer
 from django.contrib.auth.hashers import check_password
 from rest_framework import status
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -10,32 +8,30 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import render
 
+from .models import CustomerUser
+from .serializers import *
+from orders.models import Cart
 
+
+# Tạo Tài Khoản Khách Hàng + Tạo Giỏ Hàng Tương Ứng
 class RegisterView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        """Xử lý đăng ký tài khoản"""
-        serializer = CustomerUserSerializer(data=request.data)
+        """Xử lý đăng ký tài khoản (Chỉ nhận username, email, password)"""
+        serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            user = serializer.save()
+            Cart.objects.create(user=user) # Tạo giỏ hàng cho người dùng mới
             return Response({
                 "message": "Đăng ký tài khoản thành công!",
                 "data": {"username": serializer.data.get("username")},
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def handle_exception(self, exc):
-        """Xử lý ngoại lệ cho phương thức không được phép"""
-        if isinstance(exc, Exception) and self.request.method != 'POST':
-            return Response({
-                "error": "Phương thức không được phép!",
-                "suggestion": "Vui lòng sử dụng phương thức POST."
-            }, status=status.HTTP_405_METHOD_NOT_ALLOWED)
-        return super().handle_exception(exc)
 
 
-    
+# Đăng Nhập Tài Khoản Khách Hàng
 class LoginView(APIView):
     permission_classes = [AllowAny]
 
@@ -47,15 +43,18 @@ class LoginView(APIView):
             user = CustomerUser.objects.get(username=username)
             
             if check_password(password,user.password):
-                refresh_token = RefreshToken()
-                refresh_token["id"] = user.pk
-                refresh_token["username"] = user.username
-                access_token = refresh_token.access_token
+                refresh = RefreshToken()
+                refresh["id"] = user.pk
+                refresh["username"] = user.username
+                access = refresh.access_token
 
                 return Response({
-                    'access':str(access_token),
-                    'refresh':str(refresh_token)
-                })
+                    "message": "Đăng nhập thành công!",
+                    "tokens": {
+                        "access": str(access),
+                        "refresh": str(refresh)
+                    }
+                }, status=status.HTTP_200_OK)
             
             else: 
                 return Response({
@@ -66,3 +65,93 @@ class LoginView(APIView):
             return Response({
                 'error':'Tên đăng nhập hoặc mật khẩu không đúng'
             }, status=status.HTTP_401_UNAUTHORIZED)
+        
+
+# (Chung) Lấy Thông Tin
+class CustomJWTAuthentication(JWTAuthentication):
+    def get_user(self, validated_token):
+        try:
+            user_id = validated_token.get('id')
+            if not user_id:
+                raise InvalidToken("Token Thông Báo Không có ID trên")
+            
+            user = CustomerUser.objects.get(id=user_id)
+            return user
+        except CustomerUser.DoesNotExist:
+            raise InvalidToken("Khách Hàng Này Không Tồn Tại")
+
+
+# Lấy Thông Tin Tài Khoản Khách Hàng
+class ProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [CustomJWTAuthentication]
+
+    def get(self, request):
+        serializer = CustomerUserSerializer(request.user)
+        return Response({
+            "message": "Lấy Thông Tin của Quý Khách Thành Công",
+            "data": serializer.data
+        }, status=status.HTTP_200_OK)
+    
+
+# Cập Nhật Thông Tin Tài Khoản Khách Hàng
+class UpdateProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [CustomJWTAuthentication]
+
+    def put(self, request):
+        serializer = CustomerUserSerializer(request.user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                "message": "Cập Nhật Thông Tin Tài Khoản Thành Công",
+                "data": serializer.data
+            }, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+# Refresh Token
+class RefreshTokenView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        refresh_token = request.data.get('refresh')
+        if not refresh_token:
+            return Response({'error': 'Cần có Mã Refresh Token'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            token = RefreshToken(refresh_token)
+            new_access_token = token.access_token
+
+            return Response({
+                'access': str(new_access_token),
+                'refresh': str(token),
+            })
+        except TokenError as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+# Đăng Xuất Tài Khoản Khách Hàng
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [CustomJWTAuthentication]
+
+    def post(self, request):
+        refresh_token = request.data.get('refresh')
+        if not refresh_token:
+            return Response({
+                'error': 'Cần có Mã Refresh Token'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response({
+                'message': 'Đăng xuất thành công. Refresh token đã bị vô hiệu hóa.'
+            }, status=status.HTTP_205_RESET_CONTENT)
+
+        except TokenError as e:
+            return Response({
+                'error': 'Refresh token không hợp lệ hoặc đã hết hạn.',
+                'details': str(e)
+            }, status=status.HTTP_400_BAD_REQUEST)

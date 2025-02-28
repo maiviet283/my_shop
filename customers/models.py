@@ -55,3 +55,7 @@ class CustomerUser(models.Model):
             today = timezone.now().date()
             return today.year - self.date_of_birth.year - ((today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
         return None
+
+    @property
+    def is_authenticated(self):
+        return True
