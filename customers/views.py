@@ -66,7 +66,7 @@ class LoginView(APIView):
             }, status=status.HTTP_401_UNAUTHORIZED)
         
 
-# (Chung) Lấy Thông Tin
+# *** (Chung) Lấy Thông Tin ***
 class CustomJWTAuthentication(JWTAuthentication):
     def get_user(self, validated_token):
         try:
