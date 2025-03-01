@@ -1,0 +1,12 @@
+<div class="col-md-4">
+    <div class="card api-card">
+        <div class="card-header bg-success text-white fw-bold">
+            <i class="bi bi-box"></i> API Products
+        </div>
+        <ul class="list-group list-group-flush api-list">
+            <li class="list-group-item"><a href='{% url "products:product-list" %}'>📦 List Products</a></li>
+            <li class="list-group-item"><a href='{% url "products:product-detail" 2 %}'>📦 Product Details (id=2)</a></li>
+            <li class="list-group-item"><a href='{% url "products:category-list" %}'>📦 Categories</a></li>
+        </ul>
+    </div>
+</div>

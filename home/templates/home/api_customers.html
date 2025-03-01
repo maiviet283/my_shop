@@ -1,0 +1,16 @@
+<div class="col-md-4">
+    <div class="card api-card">
+        <div class="card-header bg-info text-white fw-bold">
+            <i class="bi bi-person"></i> API Customers
+        </div>
+        <ul class="list-group list-group-flush api-list">
+            <li class="list-group-item"><a href='{% url "customers:register" %}'>🔹 Register</a></li>
+            <li class="list-group-item"><a href='{% url "customers:login" %}'>🔹 Login</a></li>
+            <li class="list-group-item"><a href='{% url "customers:profile" %}'>🔹 Profile</a></li>
+            <li class="list-group-item"><a href='{% url "customers:update" %}'>🔹 Update</a></li>
+            <li class="list-group-item"><a href='{% url "customers:refresh" %}'>🔹 Refresh Token</a></li>
+            <li class="list-group-item"><a href='{% url "customers:logout" %}'>🔹 Logout</a></li>
+            <li class="list-group-item"><a href='{% url "customers:change-password" %}'>🔹 Change Password</a></li>
+        </ul>
+    </div>
+</div>

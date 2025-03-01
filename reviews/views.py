@@ -9,9 +9,6 @@ from products.models import Product
 from .serializers import ReviewSerializer
 from products.views import CustomAPIView
 
-# Create your views here.
-def index(request):
-    return render(request, 'reviews/index.html')
 
 # API danh sách Bình Luận (API này không cần thiết lắm)
 class CategoryListView(CustomAPIView, generics.ListAPIView):

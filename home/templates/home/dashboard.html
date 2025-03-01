@@ -1,0 +1,36 @@
+{% extends "home/layout.html" %}
+{% load static %}
+
+{% block head %}
+    <title>API Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href='{% static "home/style.css" %}'>
+{% endblock head %}
+
+{% block body %}
+<div class="container mt-5 mb-5">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="/">API Dashboard</a>
+            <div class="navbar-nav">
+                <a class="nav-link text-white" href="/admin">Admin</a>
+                <a class="nav-link text-white" href="/">Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <h2 class="text-center text-primary fw-bold">Danh sách API</h2>
+
+    <div class="row g-4 mt-4">
+        {% include "home/api_customers.html" %}
+        {% include "home/api_products.html" %}
+        {% include "home/api_reviews.html" %}
+    </div>
+
+    {% comment %} <div class="row g-4 mt-4">
+        {% include "home/api_orders.html" %}
+        {% include "home/api_payments.html" %}
+    </div> {% endcomment %}
+</div>
+{% endblock body %}

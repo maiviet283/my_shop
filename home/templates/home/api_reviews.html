@@ -1,0 +1,13 @@
+<div class="col-md-4">
+    <div class="card api-card">
+        <div class="card-header bg-danger text-white fw-bold">
+            <i class="bi bi-chat"></i> API Reviews
+        </div>
+        <ul class="list-group list-group-flush api-list">
+            <li class="list-group-item"><a href='{% url "reviews:list" %}'>💬 List Reviews</a></li>
+            <li class="list-group-item"><a href='{% url "reviews:detail" 2 %}'>💬 Product Reviews (id=2)</a></li>
+            <li class="list-group-item"><a href='{% url "reviews:detail" 3 %}'>💬 Product Reviews (id=3)</a></li>
+            <li class="list-group-item"><a href='{% url "reviews:list" %}'>💬 Categories</a></li>
+        </ul>
+    </div>
+</div>
