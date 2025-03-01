@@ -1,7 +1,11 @@
 from django.shortcuts import render
-from rest_framework import generics
+from django.shortcuts import get_object_or_404
+from rest_framework import generics,status
+from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 from .models import Review
+from products.models import Product
 from .serializers import ReviewSerializer
 from products.views import CustomAPIView
 
@@ -17,11 +21,19 @@ class CategoryListView(CustomAPIView, generics.ListAPIView):
 
 
 # API chi tiết Bình Luận của Mỗi Sản Phẩm
-class CategoryDetailView(CustomAPIView, generics.ListAPIView):
+class ReviewProductDetailView(APIView):
     permission_classes = [AllowAny]
-    serializer_class = ReviewSerializer
 
-    def get_queryset(self):
-        # Lấy id của sản phẩm từ URL
-        product_id = self.kwargs.get("pk")
-        return Review.objects.filter(product__id=product_id)  # Lọc theo sản phẩm
+    def get(self, request, pk):
+        # Kiểm tra xem sản phẩm có tồn tại không
+        get_object_or_404(Product, id=pk)
+        # Lọc bình luận theo sản phẩm
+        reviews = Review.objects.filter(product__id=pk)
+        # Nếu không có review nào, trả về thông báo
+        if not reviews.exists():
+            return Response(
+                {"message": "Không có bình luận nào cho sản phẩm này."},
+                status=status.HTTP_204_NO_CONTENT
+            )
+        serializer = ReviewSerializer(reviews, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
