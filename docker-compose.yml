@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    environment:
+      - DEBUG=True
+      - DB_NAME=myshopdb
+      - DB_USER=myshopuser
+      - DB_PASS=myshoppass
+      - DB_HOST=db
+      - DB_PORT=5432
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: myshopdb
+      POSTGRES_USER: myshopuser
+      POSTGRES_PASSWORD: myshoppass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
