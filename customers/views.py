@@ -30,7 +30,6 @@ class RegisterView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
 # Đăng Nhập Tài Khoản Khách Hàng
 class LoginView(APIView):
     permission_classes = [AllowAny]
@@ -100,13 +99,27 @@ class UpdateProfileView(APIView):
     authentication_classes = [CustomJWTAuthentication]
 
     def put(self, request):
-        serializer = CustomerUserSerializer(request.user, data=request.data, partial=True)
+        serializer = UpdateSerializer(request.user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response({
                 "message": "Cập Nhật Thông Tin Tài Khoản Thành Công",
                 "data": serializer.data
             }, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+# Cập Nhật Mật Khẩu Tài Khoản Khách Hàng
+class UpdatePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [CustomJWTAuthentication]
+
+    def post(self, request):
+        serializer = ChangePasswordSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.update_password()  # Cập nhật mật khẩu
+            return Response({"message": "Mật khẩu đã được thay đổi thành công."}, status=status.HTTP_200_OK)
+        
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
