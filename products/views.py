@@ -1,45 +1,37 @@
-from rest_framework import generics
-from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from rest_framework.views import APIView
 from .models import Product, Category
 from .serializers import *
 
-# API chung cho tất cả các API
-# Các API dưới đều sử dụng GET để lấy thông tin
-class CustomAPIView(generics.GenericAPIView):
-    """ -> Chặn tất cả phương thức không hợp lệ """
-    
-    def method_not_allowed(self, request, *args, **kwargs):
-        return Response(
-            {"error": "Phương thức không được hỗ trợ. Vui lòng sử dụng GET."}, 
-            status=status.HTTP_405_METHOD_NOT_ALLOWED
-        )
-
-    def post(self, request, *args, **kwargs):
-        return self.method_not_allowed(request)
-
-    def put(self, request, *args, **kwargs):
-        return self.method_not_allowed(request)
-
-    def delete(self, request, *args, **kwargs):
-        return self.method_not_allowed(request)
-
 
 # API danh sách sản phẩm (không có images)
-class ProductListView(generics.ListAPIView):
+class ProductListView(APIView):
     permission_classes = [AllowAny]
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+    
+    def get(self, request):
+        products = Product.objects.all()
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
 
 # API chi tiết sản phẩm (có images)
-class ProductDetailView(generics.RetrieveAPIView):
+class ProductDetailView(APIView):
     permission_classes = [AllowAny]
-    queryset = Product.objects.all()
-    serializer_class = ProductDetailSerializer
+    
+    def get(self, request, pk):
+        try:
+            product = Product.objects.get(pk=pk)
+            serializer = ProductDetailSerializer(product)
+            return Response(serializer.data)
+        except Product.DoesNotExist:
+            return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
 
 # API danh sách danh mục
-class CategoryListView(CustomAPIView, generics.ListAPIView):
+class CategoryListView(APIView):
     permission_classes = [AllowAny]
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+    
+    def get(self, request):
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
+        return Response(serializer.data)

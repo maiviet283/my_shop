@@ -4,10 +4,11 @@
             <i class="bi bi-chat"></i> API Reviews
         </div>
         <ul class="list-group list-group-flush api-list">
-            <li class="list-group-item"><a href='{% url "reviews:list" %}'>💬 List Reviews</a></li>
-            <li class="list-group-item"><a href='{% url "reviews:detail" 2 %}'>💬 Product Reviews (id=2)</a></li>
-            <li class="list-group-item"><a href='{% url "reviews:detail" 3 %}'>💬 Product Reviews (id=3)</a></li>
-            <li class="list-group-item"><a href='{% url "reviews:list" %}'>💬 Categories</a></li>
+            <li class="list-group-item"><a href='{% url "reviews:detail" 2 %}'>💬 Detail Comment Product GET (id=2)</a></li>
+            <li class="list-group-item"><a href='{% url "reviews:detail" 3 %}'>💬 Detail Comment Product GET (id=3)</a></li>
+            <li class="list-group-item"><a href='{% url "reviews:detail" 3 %}'>💬 Create Comment Product POST (id=3)</a></li>
+            <li class="list-group-item"><a href='{% url "reviews:detail" 3 %}'>💬 Update Comment Product PUT (id=3)</a></li>
+            <li class="list-group-item"><a href='{% url "reviews:detail" 3 %}'>💬 Delete Comment Product DELETE (id=3)</a></li>
         </ul>
     </div>
 </div>
