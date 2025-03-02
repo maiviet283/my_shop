@@ -44,12 +44,6 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    
-    def save(self, *args, **kwargs):
-        if not self.pk:  
-            super().save(*args, **kwargs)  # Lưu Order để có primary key
-        self.total_price = sum(item.total_price() for item in self.items.all())
-        super().save(*args, **kwargs)  # Lưu lại với total_price đã cập nhật
 
     class Meta:
         verbose_name = "Đơn Hàng"
@@ -64,13 +58,22 @@ class Order(models.Model):
         if not cart.items.exists():
             return None  # Giỏ hàng trống, không thể đặt hàng
 
-        order = cls.objects.create(user=user, total_price=cart.total_price())
-        
+        # Tạo Order trước khi thêm sản phẩm vào
+        order = cls.objects.create(user=user)
+
+        # Thêm sản phẩm vào OrderItem
+        total_price = 0
         for cart_item in cart.items.all():
             OrderItem.objects.create(order=order, product=cart_item.product, quantity=cart_item.quantity)
-        
-        cart.clear_cart()  # Xóa giỏ hàng sau khi đặt hàng
+            total_price += cart_item.total_price()
+
+        # Cập nhật total_price cho Order rồi lưu lại
+        order.total_price = total_price
+        order.save(update_fields=["total_price"])
+
+        cart.clear_cart()  # Xóa các CartItem thay vì xóa giỏ hàng
         return order
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items")

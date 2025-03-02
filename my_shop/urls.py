@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/customers/', include('customers.urls')),
     path('api/products/', include('products.urls')),
     path('api/reviews/', include('reviews.urls')),
+    path('api/orders/', include('orders.urls')),
 ] 
 
 if settings.DEBUG:  # Chỉ dùng khi phát triển (development)

@@ -1,0 +1,12 @@
+<div class="col-md-4">
+    <div class="card api-card">
+        <div class="card-header bg-warning text-white fw-bold">
+            <i class="bi bi-chat"></i> API Cart
+        </div>
+        <ul class="list-group list-group-flush api-list">
+            <li class="list-group-item"><a href='{% url "orders:add_to_cart" 2 %}'>🛒 Add To Cart (ID=2) ID Product</a></li>
+            <li class="list-group-item"><a href='{% url "orders:decrease_cart_item" 2 %}'>➖ Delete Product 1 Cart (ID=2) ID Product</a></li>
+            <li class="list-group-item"><a href='{% url "orders:remove_from_cart" 2 %}'>🗑️ Remove From Cart Delete (ID=2) ID Product</a></li>
+        </ul>
+    </div>
+</div>
