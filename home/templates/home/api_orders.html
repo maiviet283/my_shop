@@ -4,7 +4,14 @@
             <i class="bi bi-chat"></i> API Orders
         </div>
         <ul class="list-group list-group-flush api-list">
-            <li class="list-group-item"><a href='{% url "orders:create_order" %}'>Create Order </a></li>
+            <li class="list-group-item">
+                <a href='{% url "orders:create_order" %}'
+                        title="POST (Token) : Tạo Đơn Hàng 
+                        (Lấy Toàn Bộ Sản Phẩm trong Giỏ Hàng tạo Thành 1 Đơn Hàng sau đó Xóa Hết Sản Phẩm Trong Giỏ Hàng)"
+                    >
+                        Create Order 
+                </a>
+            </li>
             
         </ul>
     </div>

@@ -4,13 +4,35 @@
             <i class="bi bi-person"></i> API Customers
         </div>
         <ul class="list-group list-group-flush api-list">
-            <li class="list-group-item"><a href='{% url "customers:register" %}'>🔹 Register</a></li>
-            <li class="list-group-item"><a href='{% url "customers:login" %}'>🔹 Login</a></li>
-            <li class="list-group-item"><a href='{% url "customers:profile" %}'>🔹 Profile</a></li>
-            <li class="list-group-item"><a href='{% url "customers:update" %}'>🔹 Update Profile</a></li>
-            <li class="list-group-item"><a href='{% url "customers:refresh" %}'>🔹 Refresh Token</a></li>
-            <li class="list-group-item"><a href='{% url "customers:logout" %}'>🔹 Logout</a></li>
-            <li class="list-group-item"><a href='{% url "customers:change-password" %}'>🔹 Update Password</a></li>
+
+            <li class="list-group-item">
+                <a href='{% url "customers:register" %}' title="POST : Đăng Ký Thông Tin Người Dùng">🔹 Register</a>
+            </li>
+
+            <li class="list-group-item">
+                <a href='{% url "customers:login" %}' title="POST : Đăng Nhập Thông Tin Người Dùng">🔹 Login</a>
+            </li>
+
+            <li class="list-group-item">
+                <a href='{% url "customers:profile" %}' title="GET (Token) : Thông Tin Chi Tiết Người Dùng">🔹 Profile</a>
+            </li>
+
+            <li class="list-group-item">
+                <a href='{% url "customers:update" %}' title="PUT (Token) : Cập Nhật Thông Tin Chi Tiết Người Dùng">🔹 Update Profile</a>
+            </li>
+
+            <li class="list-group-item">
+                <a href='{% url "customers:refresh" %}' title="POST : Tạo Lại Refresh Token">🔹 Refresh Token</a>
+            </li>
+
+            <li class="list-group-item">
+                <a href='{% url "customers:logout" %}' title="POST (Token) : Đăng Xuất Khỏi Hệ Thống">🔹 Logout</a>
+            </li>
+
+            <li class="list-group-item">
+                <a href='{% url "customers:change-password" %}' title="POST (Token) : Thay Đổi Mật Khẩu Người Dùng">🔹 Update Password</a>
+            </li>
+
         </ul>
     </div>
 </div>

@@ -4,9 +4,29 @@
             <i class="bi bi-box"></i> API Products
         </div>
         <ul class="list-group list-group-flush api-list">
-            <li class="list-group-item"><a href='{% url "products:product-list" %}'>📦 Product List</a></li>
-            <li class="list-group-item"><a href='{% url "products:product-detail" 2 %}'>📦 Product Detail (id=2)</a></li>
-            <li class="list-group-item"><a href='{% url "products:category-list" %}'>📦 Category List</a></li>
+            <li class="list-group-item">
+                <a href='{% url "products:product-list" %}' 
+                    title="GET : Danh Sách Toàn Bộ Sản Phẩm"
+                >
+                    📦 Product List
+                </a>
+            </li>
+
+            <li class="list-group-item">
+                <a href='{% url "products:product-detail" 2 %}' 
+                    title="GET : Thông Tin Chi Tiết Sản Phẩm có ID=2 (Túi Xách Nhỏ Shoulder Bag Trang Trí Khóa Logo Cách Điệu)"
+                >
+                    📦 Product Detail (id=2)
+                </a>
+            </li>
+
+            <li class="list-group-item">
+                <a href='{% url "products:category-list" %}' 
+                    title="GET (Token) : Danh Sách Danh Mục"
+                >
+                    📦 Category List
+                </a>
+            </li>
         </ul>
     </div>
 </div>

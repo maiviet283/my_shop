@@ -4,9 +4,29 @@
             <i class="bi bi-chat"></i> API Cart
         </div>
         <ul class="list-group list-group-flush api-list">
-            <li class="list-group-item"><a href='{% url "orders:add_to_cart" 2 %}'>🛒 Add To Cart (ID Product=2) </a></li>
-            <li class="list-group-item"><a href='{% url "orders:decrease_cart_item" 2 %}'>➖ Decrease Cart Item (ID Product=2) </a></li>
-            <li class="list-group-item"><a href='{% url "orders:remove_from_cart" 2 %}'>🗑️ Remove From Cart (ID Product=2) </a></li>
+            <li class="list-group-item">
+                <a href='{% url "orders:add_to_cart" 2 %}' 
+                    title="POST (Token) : Thêm Sản Phẩm vào Giỏ Hàng (Túi Xách Nhỏ Shoulder Bag Trang Trí Khóa Logo Cách Điệu)"
+                >
+                    🛒 Add To Cart (ID Product=2) 
+                </a>
+            </li>
+
+            <li class="list-group-item">
+                <a href='{% url "orders:decrease_cart_item" 2 %}'
+                    title="POST (Token) : Trừ 1 (Số Lượng) Sản Phẩm Khỏi Giỏ Hàng (Túi Xách Nhỏ Shoulder Bag Trang Trí Khóa Logo Cách Điệu)"
+                >
+                    ➖ Decrease Cart Item (ID Product=2) 
+                </a>
+            </li>
+
+            <li class="list-group-item">
+                <a href='{% url "orders:remove_from_cart" 2 %}'
+                    title="DELETE (Token) : Xóa Sản Phẩm Khỏi Giỏ Hàng"
+                >
+                    🗑️ Remove From Cart (ID Product=2) 
+                </a>
+            </li>
         </ul>
     </div>
 </div>
