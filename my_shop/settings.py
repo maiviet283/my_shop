@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
+    "axes",
 ]
 
 MIDDLEWARE = [
@@ -70,6 +71,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    "axes.middleware.AxesMiddleware",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -142,7 +144,7 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -167,7 +169,29 @@ JAZZMIN_SETTINGS = {
         {"model": "auth.User"},
     ],
     "show_ui_builder": False,  # Bật tính năng kéo thả UI
+
+    "order_with_respect_to": [
+        "auth",
+        "customers",
+        "products",
+        "orders",
+        "payments",
+        "reviews",
+        "axes",
+        "home",
+        "rest_framework_simplejwt.token_blacklist",
+    ],
 }
+
+AXES_FAILURE_LIMIT = 5  # Chặn sau 5 lần đăng nhập sai
+AXES_COOLOFF_TIME = 0.01  # Chặn trong 1 giờ (đơn vị: giờ)
+AXES_RESET_ON_SUCCESS = True  # Reset bộ đếm khi đăng nhập đúng
+AXES_LOCKOUT_TEMPLATE = "home/lockout.html"  # Trang bị khóa đăng nhập
+
+AUTHENTICATION_BACKENDS = [
+    "axes.backends.AxesBackend",  # Django Axes - Chống brute-force
+    "django.contrib.auth.backends.ModelBackend",  # Mặc định của Django
+]
 
 
 REST_FRAMEWORK = {
