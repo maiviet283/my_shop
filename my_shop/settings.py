@@ -72,6 +72,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     "axes.middleware.AxesMiddleware",
+
+    # Thêm Middleware giới hạn request toàn hệ thống
+    "my_shop.middlewares.rate_limit_middleware.GlobalRateLimitMiddleware",
+
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True

@@ -18,6 +18,13 @@ class UpdateSerializer(serializers.ModelSerializer):
             'date_of_birth', 'gender', 'address',
         ]
 
+    def validate_avatar(self, value):
+        """Giới hạn kích thước file avatar tối đa 1MB"""
+        max_size = 1 * 1024 * 1024  # 1MB
+        if value and value.size > max_size:
+            raise serializers.ValidationError("File quá lớn! Kích thước tối đa là 1MB.")
+        return value
+
     def validate_email(self, value):
         """Đảm bảo email không trùng lặp (ngoại trừ email của chính user)"""
         user = self.instance
