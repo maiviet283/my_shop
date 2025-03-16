@@ -78,7 +78,15 @@ MIDDLEWARE = [
 
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    CORS_ALLOWED_ORIGINS = [
+        "https://your-frontend.com",
+        "https://your-other-domain.com",
+    ]
+
 
 ROOT_URLCONF = 'my_shop.urls'
 
@@ -212,5 +220,10 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',  # Luôn trả JSON
+    ) + ( 
+        ('rest_framework.renderers.BrowsableAPIRenderer',) if DEBUG else ()  # Chỉ bật khi DEBUG=True
     ),
 }
