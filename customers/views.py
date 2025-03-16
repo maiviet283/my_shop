@@ -40,6 +40,11 @@ class LoginView(APIView):
 
         try:
             user = CustomerUser.objects.get(username=username)
+
+            if not user.is_active:
+                return Response({
+                    "error": "Tài khoản chưa được kích hoạt hoặc đã bị khóa."
+                }, status=status.HTTP_403_FORBIDDEN)
             
             if check_password(password,user.password):
                 refresh = RefreshToken()

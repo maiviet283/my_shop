@@ -39,7 +39,7 @@ class CustomerUser(models.Model):
     password = models.CharField(max_length=128)  # Độ dài mặc định như User Django
     date_joined = models.DateTimeField(default=timezone.now)  # Ngày tạo tài khoản
     updated_at = models.DateTimeField(auto_now=True)  # Ngày cập nhật cuối
-    is_active = models.BooleanField(default=False)  # Trạng thái tài khoản
+    is_active = models.BooleanField(default=True)  # Trạng thái tài khoản
 
     class Meta:
         verbose_name = "Khách Hàng"
