@@ -1,6 +1,7 @@
 import logging
 from django.core.cache import cache
 from django.http import JsonResponse
+from django.shortcuts import render
 
 logger = logging.getLogger(__name__)
 
@@ -17,10 +18,9 @@ class GlobalRateLimitMiddleware:
         if not client_ip:
             return self.get_response(request)
 
-        # Cho phép tối đa 10 requests trong 5 giây.
-        limit = 10  # Giới hạn request
+        limit = 20  # Giới hạn request
         timeframe = 5  # 5 giây kiểm tra
-        block_time = 7  # Nếu quá giới hạn, chặn trong 7 giây
+        block_time = 7  # Nếu quá giới hạn, chặn trong 3 giây
 
         cache_key = f"rl:{client_ip}"
         block_key = f"blocked:{client_ip}"
@@ -28,10 +28,7 @@ class GlobalRateLimitMiddleware:
         # Kiểm tra IP có đang bị chặn không
         if cache.get(block_key):
             logger.warning(f"IP {client_ip} vẫn đang bị chặn!")
-            return JsonResponse(
-                {"error": "Bạn đã gửi quá nhiều yêu cầu! Hãy thử lại sau 7 giây."},
-                status=429,
-            )
+            return self.handle_rate_limit(request)
 
         request_count = cache.get(cache_key, 0)
 
@@ -39,15 +36,19 @@ class GlobalRateLimitMiddleware:
             logger.warning(f"IP {client_ip} bị chặn do quá nhiều request!")
             cache.set(block_key, 1, timeout=block_time)  # Chặn trong 7 giây
             cache.delete(cache_key)  # Xóa số request hiện tại
-            return JsonResponse(
-                {"error": "Bạn đã gửi quá nhiều yêu cầu! Vui lòng thử lại sau."},
-                status=429,
-            )
+            return self.handle_rate_limit(request)
 
         # Tăng số lượng request và đặt lại thời gian hết hạn của cache
         cache.set(cache_key, request_count + 1, timeout=timeframe)
 
         return self.get_response(request)
+
+    def handle_rate_limit(self, request):
+        """Xử lý khi bị giới hạn request"""
+        error_message = "Bạn đã gửi quá nhiều yêu cầu! Hãy thử lại sau 7 giây."
+        if request.headers.get("Accept") == "application/json" or request.headers.get("X-Requested-With") == "XMLHttpRequest":
+            return JsonResponse({"error": error_message}, status=429)
+        return render(request, "home/rate_limit.html", {"error_message": error_message}, status=429)
 
     def get_client_ip(self, request):
         """Lấy địa chỉ IP của client"""

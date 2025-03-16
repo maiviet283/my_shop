@@ -163,6 +163,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 JAZZMIN_SETTINGS = {
+    "site_icon": "/home/images/favicon.png",
     "site_title": "Hệ Thống Quản Lý Cửa Hàng",
     "site_header": "Trang Admin",
     "site_brand": "Cửa Hàng",
@@ -172,6 +173,13 @@ JAZZMIN_SETTINGS = {
         {"name": "Trang Chủ", "url": "admin:index", "permissions": ["auth.view_user"]},
         {"model": "auth.User"},
     ],
+
+    # Logo trên sidebar
+    "site_logo": "/home/images/site_logo.png",
+    
+    # Logo trên trang đăng nhập
+    "login_logo": "/home/images/logo.png",
+    
     "show_ui_builder": False,  # Bật tính năng kéo thả UI
 
     "order_with_respect_to": [

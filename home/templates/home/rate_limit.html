@@ -2,18 +2,18 @@
 {% load static %}
 
 {% block head %}
-    <title>Bạn đã bị khóa đăng nhập</title>
+    <title>Bạn Đã Bị Chặn</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href='{% static "home/css/lockyou.css" %}'>
+    <link rel="stylesheet" href='{% static "home/css/rate_limit.css" %}'>
 {% endblock head %}
 
 {% block body %}
     <div class="container">
         <i class="fas fa-exclamation-circle icon"></i>
         <h1>Bạn Đã Bị Chặn Trong Giây Lát!</h1>
-        <p>Do bạn đã nhập sai mật khẩu quá nhiều lần, hệ thống đã tạm thời khóa đăng nhập.</p>
+        <p>Do bạn đã gửi quá nhiều yêu cầu! Hãy thử lại sau 7 giây.</p>
         <p>Vui lòng thử lại sau ít phút.</p>
         <a href="/" class="btn-primary">Quay lại Trang Chủ</a>
     </div>
-    <script src="{% static 'home/js/lockyou.js' %}"></script>
+    <script src="{% static 'home/js/rate_limit.js' %}"></script>
 {% endblock body %}
