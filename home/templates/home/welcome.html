@@ -1,0 +1,58 @@
+{% extends "home/layout.html" %}
+{% load static %}
+
+{% block head %}
+    <title>Clothing Shop API</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+{% endblock head %}
+
+{% block body %}
+
+    <canvas id="snowCanvas" class="absolute top-0 left-0 w-full h-full pointer-events-none"></canvas>
+
+    <div class="min-h-screen bg-gradient-to-r from-blue-100 to-indigo-200 flex flex-col items-center justify-center">
+        <div class="text-center bg-white shadow-xl rounded-2xl p-12 max-w-3xl transition-all hover:shadow-2xl">
+            <h1 class="text-4xl font-extrabold text-gray-800 animate-fade-in">🛍 Clothing Shop API</h1>
+            <p class="text-gray-600 mt-3 text-lg">Hệ thống backend mạnh mẽ cho cửa hàng quần áo.</p>
+            
+            <div class="mt-6 flex flex-wrap justify-center gap-4">
+                <a href="/admin/" class="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-all transform hover:scale-105">
+                    🔑 Trang Admin
+                </a>
+                <a href="/swagger/" class="px-6 py-3 bg-gray-900 text-white rounded-lg shadow-md hover:bg-gray-800 transition-all transform hover:scale-105">
+                    📜 Tài liệu API
+                </a>
+            </div>
+
+            <div class="mt-8">
+                <h2 class="text-2xl font-semibold text-gray-700">🚀 Công Nghệ Sử Dụng</h2>
+                <div class="grid grid-cols-2 gap-6 mt-6 text-gray-600 text-lg">
+                    <div class="flex items-center gap-2">
+                        <span class="text-blue-500 text-2xl">🐍</span> Django 4.x
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-red-500 text-2xl">🔥</span> Django Rest Framework
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-yellow-500 text-2xl">🔑</span> JWT Authentication
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-green-500 text-2xl">🎨</span> Jazzmin Admin
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-purple-500 text-2xl">🛒</span> PostgreSQL / MySQL
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-indigo-500 text-2xl">🛡</span> Chống spam/DDoS
+                    </div>
+                </div>
+            </div>
+
+            <footer class="mt-10 text-gray-500 text-sm">
+                &copy; 2025 Clothing Shop API - Django DRF & Jazzmin
+            </footer>
+        </div>
+    </div>
+
+    <script src="{% static 'home/js/welcome.js' %}"></script>
+{% endblock body %}

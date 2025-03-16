@@ -5,4 +5,5 @@ app_name = 'home'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('swagger/', views.swagger, name='swagger'),
 ]
