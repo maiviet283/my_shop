@@ -34,11 +34,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-g_pb0squy63k+&7hnnp$rn5vpwygw%l-k&gm%vgky#fn)iz^g%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
-
+HANDLER_404 = 'home.views.custom_404_view'
 # Application definition
 
 INSTALLED_APPS = [
@@ -203,6 +203,8 @@ JAZZMIN_SETTINGS = {
     ],
 }
 
+
+# Chặn tấn Công Brute-Force
 AXES_FAILURE_LIMIT = 5  # Chặn sau 5 lần đăng nhập sai
 AXES_COOLOFF_TIME = 0.01  # Chặn trong 1 giờ (đơn vị: giờ)
 AXES_RESET_ON_SUCCESS = True  # Reset bộ đếm khi đăng nhập đúng
