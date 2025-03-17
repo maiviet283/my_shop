@@ -6,6 +6,29 @@ from rest_framework.response import Response
 from .models import Cart, CartItem
 from products.models import Product
 from customers.views import CustomJWTAuthentication
+from .serializers import CartSerializer
+
+
+
+class CartDetailView(APIView):
+    """
+    API để xem thông tin giỏ hàng của người dùng.
+    """
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [CustomJWTAuthentication]
+
+    def get(self, request):
+        user = request.user
+
+        # Kiểm tra xem giỏ hàng có tồn tại không
+        cart = Cart.objects.filter(user=user).first()
+        if not cart or not cart.items.exists():
+            return Response({"message": "Giỏ hàng trống."}, status=status.HTTP_200_OK)
+
+        # Serialize giỏ hàng
+        serializer = CartSerializer(cart)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 # Thêm sản phẩm vào giỏ hàng và +1 sản phẩm khi đã ở trong giỏ hàng
 class AddToCartView(APIView):
