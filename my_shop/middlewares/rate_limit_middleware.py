@@ -18,7 +18,7 @@ class GlobalRateLimitMiddleware:
         if not client_ip:
             return self.get_response(request)
 
-        limit = 20  # Giới hạn request
+        limit = 50  # Giới hạn request
         timeframe = 5  # 5 giây kiểm tra
         block_time = 7  # Nếu quá giới hạn, chặn trong 3 giây
 
