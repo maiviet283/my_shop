@@ -36,7 +36,7 @@ class Product(models.Model):
         verbose_name_plural = "Sản Phẩm"
     
     def __str__(self):
-        return self.name
+        return f"(ID:{self.pk}) - {self.name}"
 
 
 class ProductImage(models.Model):
