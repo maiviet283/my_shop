@@ -28,6 +28,8 @@ urlpatterns = [
     path('api/products/', include('products.urls')),
     path('api/reviews/', include('reviews.urls')),
     path('api/orders/', include('orders.urls')),
+
+    path('payments/', include('payments.urls')),
 ] 
 
 handler404 = custom_404_view
