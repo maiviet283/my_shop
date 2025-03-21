@@ -11,6 +11,25 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Payment
 
+# Hàm Tạo Mã QR
+def generate_qr(request, amount=None, note=None):
+    bank_code = "VCB"
+    account_number = "1015261005"
+    qr_url = f"https://img.vietqr.io/image/{bank_code}-{account_number}-qr.png"
+    
+    params = []
+    if amount:
+        params.append(f"amount={amount}")
+    if note:
+        params.append(f"addInfo={note}")
+    
+    if params:
+        qr_url += "?" + "&".join(params)
+
+    response = requests.get(qr_url)
+    return HttpResponse(response.content, content_type="image/png")
+
+
 
 # Khách Hàng chuyển khoản thanh toán luôn
 # class BankTransferPayment(APIView):
@@ -34,11 +53,3 @@ from .models import Payment
 #             "data": PaymentSerializer(payment).data
 #         }, status=status.HTTP_201_CREATED)
 
-
-def generate_qr(request, amount, note):
-    bank_code = "VCB"
-    account_number = "1015261005"
-    qr_url = f"https://img.vietqr.io/image/{bank_code}-{account_number}-qr.png?amount={amount}&addInfo={note}"
-
-    response = requests.get(qr_url)
-    return HttpResponse(response.content, content_type="image/png")

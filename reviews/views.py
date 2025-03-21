@@ -26,10 +26,9 @@ class ReviewProductView(APIView):
         reviews = Review.objects.filter(product__id=pk)
         # Nếu không có review nào, trả về thông báo
         if not reviews.exists():
-            return Response(
-                {"message": "Không có bình luận nào cho sản phẩm này."},
-                status=status.HTTP_204_NO_CONTENT
-            )
+            return Response({
+                "message": "Không có bình luận nào cho sản phẩm này."
+            },status=status.HTTP_204_NO_CONTENT)
         serializer = ReviewSerializer(reviews, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
@@ -46,7 +45,9 @@ class ReviewProductView(APIView):
         
         # Kiểm tra xem user đã đánh giá sản phẩm này chưa
         if Review.objects.filter(product=product, user=user).exists():
-            return Response({"error": "Bạn đã đánh giá sản phẩm này rồi"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "error": "Bạn đã đánh giá sản phẩm này rồi"
+            }, status=status.HTTP_400_BAD_REQUEST)
         
         # Tạo review mới
         review = Review.objects.create(
@@ -74,4 +75,6 @@ class ReviewProductView(APIView):
         user = request.user
         review = get_object_or_404(Review, product__id=pk, user=user)
         review.delete()
-        return Response({"message": "Đã xóa bình luận."}, status=status.HTTP_204_NO_CONTENT)
+        return Response({
+            "message": "Đã xóa bình luận."
+        }, status=status.HTTP_204_NO_CONTENT)

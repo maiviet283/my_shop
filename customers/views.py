@@ -13,6 +13,19 @@ from .serializers import *
 from orders.models import Cart
 
 
+# *** (Chung) Lấy Thông Tin ***
+class CustomJWTAuthentication(JWTAuthentication):
+    def get_user(self, validated_token):
+        try:
+            user_id = validated_token.get('id')
+            if not user_id:
+                raise InvalidToken("Token Thông Báo Không có ID trên")
+            user = CustomerUser.objects.get(id=user_id)
+            return user
+        except CustomerUser.DoesNotExist:
+            raise InvalidToken("Khách Hàng Này Không Tồn Tại")
+
+
 # Tạo Tài Khoản Khách Hàng + Tạo Giỏ Hàng Tương Ứng
 class RegisterView(APIView):
     permission_classes = [AllowAny]
@@ -71,20 +84,6 @@ class LoginView(APIView):
             }, status=status.HTTP_401_UNAUTHORIZED)
         
 
-# *** (Chung) Lấy Thông Tin ***
-class CustomJWTAuthentication(JWTAuthentication):
-    def get_user(self, validated_token):
-        try:
-            user_id = validated_token.get('id')
-            if not user_id:
-                raise InvalidToken("Token Thông Báo Không có ID trên")
-            
-            user = CustomerUser.objects.get(id=user_id)
-            return user
-        except CustomerUser.DoesNotExist:
-            raise InvalidToken("Khách Hàng Này Không Tồn Tại")
-
-
 # Lấy Thông Tin Tài Khoản Khách Hàng
 class ProfileView(APIView):
     permission_classes = [IsAuthenticated]
@@ -123,8 +122,9 @@ class UpdatePasswordView(APIView):
         serializer = ChangePasswordSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.update_password()  # Cập nhật mật khẩu
-            return Response({"message": "Mật khẩu đã được thay đổi thành công."}, status=status.HTTP_200_OK)
-        
+            return Response({
+                "message": "Mật khẩu đã được thay đổi thành công."
+            }, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
@@ -135,7 +135,9 @@ class RefreshTokenView(APIView):
     def post(self, request):
         refresh_token = request.data.get('refresh')
         if not refresh_token:
-            return Response({'error': 'Cần có Mã Refresh Token'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                'error': 'Cần có Mã Refresh Token'
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             token = RefreshToken(refresh_token)

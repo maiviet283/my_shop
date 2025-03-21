@@ -25,7 +25,9 @@ class ProductDetailView(APIView):
             serializer = ProductDetailSerializer(product)
             return Response(serializer.data)
         except Product.DoesNotExist:
-            return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({
+                "error": "Product not found"
+            }, status=status.HTTP_404_NOT_FOUND)
 
 # API danh sách danh mục
 class CategoryListView(APIView):
