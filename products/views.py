@@ -22,7 +22,7 @@ class ProductListView(APIView):
             products = Product.objects.all()
             serializer = ProductSerializer(products, many=True)
             product_data = serializer.data
-            cache.set(cache_key, product_data, timeout=3)
+            cache.set(cache_key, product_data, timeout=300)
         return Response(product_data)
 
 
