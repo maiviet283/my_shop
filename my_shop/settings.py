@@ -230,13 +230,20 @@ REST_FRAMEWORK = {
     ),
 }
 
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379/1",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#             "SERIALIZER": "django_redis.serializers.json.JSONSerializer",  # Sử dụng JSON
+#         },
+#     }
+# }
+
 CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "SERIALIZER": "django_redis.serializers.json.JSONSerializer",  # Sử dụng JSON
-        },
+    "default": {  # Định nghĩa cache mặc định
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",  # Dùng bộ nhớ RAM cục bộ
+        "LOCATION": "1",  # Mã định danh (ID) của cache, có thể đặt tên tùy ý
     }
 }
