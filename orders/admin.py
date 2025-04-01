@@ -14,6 +14,7 @@ class CartItemInline(admin.TabularInline):  # Hiển thị các sản phẩm tro
 class CartAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'created_at', 'total_price')
     list_per_page = 20
+    search_fields = ['id','user__username','user__email','user__phone_number']
     inlines = [CartItemInline]
 
     def total_price(self, obj):
