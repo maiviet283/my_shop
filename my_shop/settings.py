@@ -36,6 +36,12 @@ SECRET_KEY = 'django-insecure-g_pb0squy63k+&7hnnp$rn5vpwygw%l-k&gm%vgky#fn)iz^g%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://my-shop-4d9w.onrender.com',
+]
+CSRF_COOKIE_SECURE = True # Chỉ gửi CSRF cookie qua HTTPS
+SESSION_COOKIE_SECURE = True # Đảm bảo session cookie chỉ được gửi qua HTTPS
+
 ALLOWED_HOSTS = ['*']
 
 HANDLER_404 = 'home.views.custom_404_view'
