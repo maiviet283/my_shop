@@ -90,14 +90,8 @@ MIDDLEWARE = [
     'my_shop.middlewares.middlewares.Force404Middleware',
 ]
 
-#if DEBUG:
-CORS_ALLOW_ALL_ORIGINS = True
-# else:
-#     CORS_ALLOWED_ORIGINS = [
-#         "https://your-frontend.com",
-#         "https://your-other-domain.com",
-#     ]
 
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'my_shop.urls'
 
@@ -236,20 +230,9 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',  # Luôn trả JSON
     ) + ( 
-        ('rest_framework.renderers.BrowsableAPIRenderer',) if not DEBUG else ()  # Chỉ bật khi DEBUG=True
+        ('rest_framework.renderers.BrowsableAPIRenderer',) if not DEBUG else ()
     ),
 }
-
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": "redis://127.0.0.1:6379/1",
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#             "SERIALIZER": "django_redis.serializers.json.JSONSerializer",  # Sử dụng JSON
-#         },
-#     }
-# }
 
 CACHES = {
     "default": {  # Định nghĩa cache mặc định
