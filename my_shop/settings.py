@@ -34,7 +34,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-g_pb0squy63k+&7hnnp$rn5vpwygw%l-k&gm%vgky#fn)iz^g%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -64,6 +64,10 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
+    # Whitenoise để xử lý file tĩnh.
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -73,22 +77,20 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     "axes.middleware.AxesMiddleware",
 
-    # Whitenoise để xử lý file tĩnh.
-    "whitenoise.middleware.WhiteNoiseMiddleware",
-
     # Thêm Middleware giới hạn request toàn hệ thống
     "my_shop.middlewares.rate_limit_middleware.GlobalRateLimitMiddleware",
 
+    # Middleware hiển thị trang 404 tùy chỉnh khi DEBUG=True
+    'my_shop.middlewares.middlewares.Force404Middleware',
 ]
 
-
-if DEBUG:
-    CORS_ALLOW_ALL_ORIGINS = True
-else:
-    CORS_ALLOWED_ORIGINS = [
-        "https://your-frontend.com",
-        "https://your-other-domain.com",
-    ]
+#if DEBUG:
+CORS_ALLOW_ALL_ORIGINS = True
+# else:
+#     CORS_ALLOWED_ORIGINS = [
+#         "https://your-frontend.com",
+#         "https://your-other-domain.com",
+#     ]
 
 
 ROOT_URLCONF = 'my_shop.urls'
@@ -157,14 +159,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
-STATIC_URL = '/static/'
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # CKEDITOR_UPLOAD_PATH = 'ckeditor/'
 
@@ -229,7 +230,7 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',  # Luôn trả JSON
     ) + ( 
-        ('rest_framework.renderers.BrowsableAPIRenderer',) if DEBUG else ()  # Chỉ bật khi DEBUG=True
+        ('rest_framework.renderers.BrowsableAPIRenderer',) if not DEBUG else ()  # Chỉ bật khi DEBUG=True
     ),
 }
 

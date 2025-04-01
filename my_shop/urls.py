@@ -30,9 +30,10 @@ urlpatterns = [
     path('api/orders/', include('orders.urls')),
 
     path('payments/', include('payments.urls')),
-] 
+]
+
+# Thay đổi điều kiện này trong urls.py
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 handler404 = custom_404_view
-
-if settings.DEBUG:  # Chỉ dùng khi phát triển (development)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
