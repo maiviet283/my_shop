@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 class GlobalRateLimitMiddleware:
     """
-    Middleware giới hạn số request toàn hệ thống để chống spam và tấn công DDoS nhẹ.
+        Middleware giới hạn số request toàn hệ thống để chống spam và tấn công DDoS nhẹ.
     """
 
     def __init__(self, get_response):
