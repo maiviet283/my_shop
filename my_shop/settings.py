@@ -73,6 +73,9 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     "axes.middleware.AxesMiddleware",
 
+    # Whitenoise để xử lý file tĩnh.
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
     # Thêm Middleware giới hạn request toàn hệ thống
     "my_shop.middlewares.rate_limit_middleware.GlobalRateLimitMiddleware",
 
