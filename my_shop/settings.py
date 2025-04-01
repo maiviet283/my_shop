@@ -42,7 +42,7 @@ CSRF_TRUSTED_ORIGINS = [
 CSRF_COOKIE_SECURE = True # Chỉ gửi CSRF cookie qua HTTPS
 SESSION_COOKIE_SECURE = True # Đảm bảo session cookie chỉ được gửi qua HTTPS
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['my-shop-4d9w.onrender.com']
 
 HANDLER_404 = 'home.views.custom_404_view'
 # Application definition
