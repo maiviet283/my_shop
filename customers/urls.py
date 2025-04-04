@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from . import views, views_error
 
 app_name = 'customers'
 urlpatterns = [
@@ -10,4 +10,7 @@ urlpatterns = [
     path('refresh/', views.RefreshTokenView.as_view(), name='refresh'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
     path('change-password/', views.UpdatePasswordView.as_view(), name='change-password'),
+
+    # Lỗ Hổng SQL Injection
+    path('login-sql/', views_error.LoginSQLiDemoView.as_view(), name='login-error'),
 ]
