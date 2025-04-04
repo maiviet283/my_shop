@@ -11,6 +11,6 @@ urlpatterns = [
     path('logout/', views.LogoutView.as_view(), name='logout'),
     path('change-password/', views.UpdatePasswordView.as_view(), name='change-password'),
 
-    # Lỗ Hổng
-    path('login-error/', views_error.LoginErrorView.as_view(), name='login-error'),
+    # Lỗ Hổng SQL Injection
+    path('login-sql/', views_error.LoginSQLiDemoView.as_view(), name='login-error'),
 ]
