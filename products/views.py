@@ -4,7 +4,14 @@ from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from django.core.cache import cache 
 from .models import Product, Category
-from .serializers import ProductSerializer, ProductDetailSerializer, CategorySerializer
+from .serializers import *
+from rest_framework.pagination import PageNumberPagination
+
+
+# Tùy Chỉnh Phân Trang cho API
+class ProductPagination(PageNumberPagination):
+    page_size = 6
+    page_query_param = 'page'
 
 
 # API danh sách sản phẩm (không có images)
@@ -12,7 +19,7 @@ class ProductListView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        cache_key = "product_list"
+        cache_key = f"product_list_page_{request.query_params.get('page', 1)}"
         product_data = cache.get(cache_key)
 
         if product_data:
@@ -20,8 +27,10 @@ class ProductListView(APIView):
         else:
             print("🗄️ Data from Database")
             products = Product.objects.all()
-            serializer = ProductSerializer(products, many=True)
-            product_data = serializer.data
+            paginator = ProductPagination()
+            paginated_products = paginator.paginate_queryset(products, request)
+            serializer = ProductSerializer(paginated_products, many=True)
+            product_data = paginator.get_paginated_response(serializer.data).data
             cache.set(cache_key, product_data, timeout=300)
         return Response(product_data)
 
