@@ -4,9 +4,9 @@
             <i class="bi bi-chat"></i> API Payments
         </div>
         <ul class="list-group list-group-flush api-list">
-            <li class="list-group-item"><a href='{% url "orders:add_to_cart" 2 %}'>💬 Add To Cart (ID=2) ID Product</a></li>
-            <li class="list-group-item"><a href='{% url "orders:decrease_cart_item" 2 %}'>💬 Delete Product 1 Cart (ID=2) ID Product</a></li>
-            <li class="list-group-item"><a href='{% url "orders:remove_from_cart" 2 %}'>💬 Remove From Cart Delete (ID=2) ID Product</a></li>
+            <li class="list-group-item"><a href='{% url "payments:generate_qr" %}'>💬 QR VCB Mai Quốc Việt</a></li>
+            <li class="list-group-item"><a href='{% url "payments:generate_qr_amount" 100000 %}'>💬 QR VCB Mai Quốc Việt (100k VNĐ)</a></li>
+            <li class="list-group-item"><a href='{% url "payments:generate_qr_full" 1000000 "I Love My Life" %}'>💬 QR VCB Mai Quốc Việt (100k VNĐ) (I Love My Life)</a></li>
         </ul>
     </div>
 </div>

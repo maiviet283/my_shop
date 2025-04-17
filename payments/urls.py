@@ -1,6 +1,7 @@
 from django.urls import path
 from .import views
 
+app_name = 'payments'
 urlpatterns = [
     path('generate-qr/', views.generate_qr, name='generate_qr'),  # Không có đối số
     path('generate-qr/<int:amount>/', views.generate_qr, name='generate_qr_amount'),  # Chỉ có amount
