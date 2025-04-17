@@ -28,28 +28,3 @@ def generate_qr(request, amount=None, note=None):
 
     response = requests.get(qr_url)
     return HttpResponse(response.content, content_type="image/png")
-
-
-
-# Khách Hàng chuyển khoản thanh toán luôn
-# class BankTransferPayment(APIView):
-#     permission_classes = [IsAuthenticated]
-#     authentication_classes = [CustomJWTAuthentication]
-
-#     def post(self, request):
-#         user = request.user
-#         data = request.data
-#         cart = user.cart
-#         total = cart.total
-
-#         payment = Payment.objects.create(
-#             order=cart.order,
-#             amount=total,
-#             payment_method="bank_transfer"
-#         )
-
-#         return Response({
-#             "message": "Đã tạo yêu cầu chuyển khoản thành công!",
-#             "data": PaymentSerializer(payment).data
-#         }, status=status.HTTP_201_CREATED)
-
