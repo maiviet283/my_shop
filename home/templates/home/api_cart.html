@@ -13,6 +13,14 @@
             </li>
 
             <li class="list-group-item">
+                <a href='{% url "orders:count-in-cart" %}' 
+                    title="GET (Token) : Xem Danh Sách Các Sản Phẩm Trong Giỏ Hàng"
+                >
+                    🛍 Count Product In Cart
+                </a>
+            </li>
+
+            <li class="list-group-item">
                 <a href='{% url "orders:add_to_cart" 2 %}' 
                     title="POST (Token) : Thêm Sản Phẩm vào Giỏ Hàng (Túi Xách Nhỏ Shoulder Bag Trang Trí Khóa Logo Cách Điệu)"
                 >

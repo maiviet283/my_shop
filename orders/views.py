@@ -22,9 +22,28 @@ class CartDetailView(APIView):
             return Response({"message": "Giỏ hàng trống."}, status=status.HTTP_200_OK)
         serializer = CartSerializer(cart)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+# API để xem số lượng sản phẩm của người đó 
+class CountProductInCart(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [CustomJWTAuthentication]
+
+    def get(self, request):
+        user = request.user
+        try:
+            cart = Cart.objects.get(user=user)
+        except Cart.DoesNotExist:
+            return Response({"message": "Giỏ hàng trống.", "total_products": 0}, status=status.HTTP_200_OK)
+        distinct_products_count = cart.items.values('product').distinct().count()
+        if distinct_products_count == 0:
+            return Response({"message": "Giỏ hàng trống.", "total_products": 0}, status=status.HTTP_200_OK)
+        return Response({
+            "message": "Lấy thông tin giỏ hàng thành công.",
+            "total_products": distinct_products_count
+        }, status=status.HTTP_200_OK)
 
 
-# Thêm sản phẩm vào giỏ hàng và +1 sản phẩm khi đã ở trong giỏ hàng
+# Thêm sản phẩm vào giỏ hàng hoặc +1 sản phẩm khi đã ở trong giỏ hàng
 class AddToCartView(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [CustomJWTAuthentication]
