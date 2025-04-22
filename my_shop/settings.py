@@ -16,7 +16,7 @@ import os
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),  # Thời gian sống của Access Token
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Thời gian sống của Access Token
     'REFRESH_TOKEN_LIFETIME': timedelta(minutes=20),     # Thời gian sống của Refresh Token
     'ROTATE_REFRESH_TOKENS': True,                 # Có tự động làm mới Refresh Token khi làm mới Access Token hay không
     'BLACKLIST_AFTER_ROTATION': True,               # Có vô hiệu hóa Refresh Token sau khi nó được làm mới hay không
