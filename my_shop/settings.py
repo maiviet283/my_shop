@@ -74,7 +74,7 @@ MIDDLEWARE = [
     "axes.middleware.AxesMiddleware",
 
     # Thêm Middleware giới hạn request toàn hệ thống
-    "my_shop.middlewares.rate_limit_middleware.GlobalRateLimitMiddleware",
+    #"my_shop.middlewares.rate_limit_middleware.GlobalRateLimitMiddleware",
 
 ]
 
