@@ -14,13 +14,33 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
+from dotenv import load_dotenv
 
+load_dotenv()
+
+
+### SETTING JSON WEB TOKEN ###
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Thời gian sống của Access Token
-    'REFRESH_TOKEN_LIFETIME': timedelta(minutes=20),     # Thời gian sống của Refresh Token
-    'ROTATE_REFRESH_TOKENS': True,                 # Có tự động làm mới Refresh Token khi làm mới Access Token hay không
-    'BLACKLIST_AFTER_ROTATION': True,               # Có vô hiệu hóa Refresh Token sau khi nó được làm mới hay không
-    'UPDATE_LAST_LOGIN': False,                     # Có cập nhật thời gian đăng nhập cuối cùng của user hay không
+    # Thời gian sống của Access Token
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+
+    # Thời gian sống của Refresh Token
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7), 
+
+    # Khi người dùng dùng refresh token để xin access token mới, 
+    # hệ thống sẽ tạo luôn một refresh token mới, thay thế cái cũ.
+    'ROTATE_REFRESH_TOKENS': True, 
+
+    # Khi refresh token bị thay thế (do ROTATE_REFRESH_TOKENS=True), 
+    # token cũ sẽ bị đưa vào danh sách đen (blacklist).
+    # Tránh kẻ xấu dùng lại token cũ để xin access token mới.
+    'BLACKLIST_AFTER_ROTATION': True,
+
+    # Có cập nhật thời gian đăng nhập cuối cùng của user hay không
+    'UPDATE_LAST_LOGIN': False, 
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': os.getenv("JWT_SECRET_KEY"),
 }
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -31,10 +51,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g_pb0squy63k+&7hnnp$rn5vpwygw%l-k&gm%vgky#fn)iz^g%'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == 'True'
 
 ALLOWED_HOSTS = ['*']
 
