@@ -206,7 +206,7 @@ JAZZMIN_SETTINGS = {
     "site_logo": "/home/images/site_logo.png",
     
     # Logo trên trang đăng nhập
-    "login_logo": "/home/images/logo.png",
+    "login_logo": "/home/images/site_logo.png",
     
     "show_ui_builder": False,  # Bật tính năng kéo thả UI
 
