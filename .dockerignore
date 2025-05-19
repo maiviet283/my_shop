@@ -1,0 +1,6 @@
+# Bỏ qua thư mục Git
+.git/
+.gitignore
+
+# Bỏ qua môi trường ảo Python
+venv/

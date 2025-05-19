@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  web:
+    build: .
+    container_name: clothing_shop
+    ports:
+      - "8765:8000"
+    volumes:
+      - .:/app  # mount thư mục để giữ lại file db.sqlite3
+    env_file:
+      - .env
