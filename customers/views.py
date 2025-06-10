@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import render
 
+from .send_email import send_profile_view_email_async
 from .models import CustomerUser
 from .serializers import *
 from orders.models import Cart
@@ -90,7 +91,9 @@ class ProfileView(APIView):
     authentication_classes = [CustomJWTAuthentication]
 
     def get(self, request):
-        serializer = CustomerUserSerializer(request.user)
+        user = request.user
+        serializer = CustomerUserSerializer(user)
+        send_profile_view_email_async(user)
         return Response({
             "message": "Lấy Thông Tin của Quý Khách Thành Công",
             "data": serializer.data
