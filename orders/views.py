@@ -16,7 +16,6 @@ class CartDetailView(APIView):
 
     def get(self, request):
         user = request.user
-        # Kiểm tra xem giỏ hàng có tồn tại không
         cart = Cart.objects.filter(user=user).first()
         if not cart or not cart.items.exists():
             return Response({"message": "Giỏ hàng trống."}, status=status.HTTP_200_OK)
@@ -109,10 +108,8 @@ class RemoveFromCartView(APIView):
 
     def delete(self, request, id):
         user = request.user
-        # Kiểm tra giỏ hàng và sản phẩm trong giỏ hàng
         cart = get_object_or_404(Cart, user=user)
         cart_item = get_object_or_404(CartItem, cart=cart, product__id=id)
-        # Xóa sản phẩm khỏi giỏ hàng
         cart_item.delete()
         return Response({
                 "message": "Sản phẩm đã được xóa khỏi giỏ hàng."

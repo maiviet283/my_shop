@@ -105,7 +105,7 @@ MIDDLEWARE = [
     "axes.middleware.AxesMiddleware",
 
     # Thêm Middleware giới hạn request toàn hệ thống
-    #"my_shop.middlewares.rate_limit_middleware.GlobalRateLimitMiddleware",
+    "my_shop.middlewares.rate_limit_middleware.GlobalRateLimitMiddleware",
 
 ]
 
@@ -213,13 +213,11 @@ JAZZMIN_SETTINGS = {
         {"model": "auth.User"},
     ],
 
-    # Logo trên sidebar
     "site_logo": "/home/images/site_logo.png",
     
-    # Logo trên trang đăng nhập
     "login_logo": "/home/images/site_logo.png",
     
-    "show_ui_builder": False,  # Bật tính năng kéo thả UI
+    "show_ui_builder": False,
 
     "order_with_respect_to": [
         "auth",
@@ -235,15 +233,14 @@ JAZZMIN_SETTINGS = {
 }
 
 
-# Chặn tấn Công Brute-Force
-AXES_FAILURE_LIMIT = 5  # Chặn sau 5 lần đăng nhập sai
-AXES_COOLOFF_TIME = 0.01  # Chặn trong 1 giờ (đơn vị: giờ)
-AXES_RESET_ON_SUCCESS = True  # Reset bộ đếm khi đăng nhập đúng
-AXES_LOCKOUT_TEMPLATE = "home/lockout.html"  # Trang bị khóa đăng nhập
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = 0.01
+AXES_RESET_ON_SUCCESS = True
+AXES_LOCKOUT_TEMPLATE = "home/lockout.html"
 
 AUTHENTICATION_BACKENDS = [
-    "axes.backends.AxesBackend",  # Django Axes - Chống brute-force
-    "django.contrib.auth.backends.ModelBackend",  # Mặc định của Django
+    "axes.backends.AxesBackend",
+    "django.contrib.auth.backends.ModelBackend",
 ]
 
 
@@ -255,9 +252,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',  # Luôn trả JSON
+        'rest_framework.renderers.JSONRenderer',
     ) + ( 
-        ('rest_framework.renderers.BrowsableAPIRenderer',) if DEBUG else ()  # Chỉ bật khi DEBUG=True
+        ('rest_framework.renderers.BrowsableAPIRenderer',) if DEBUG else ()
     ),
 }
 
@@ -267,14 +264,14 @@ REST_FRAMEWORK = {
 #         "LOCATION": "redis://127.0.0.1:6379/1",
 #         "OPTIONS": {
 #             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#             "SERIALIZER": "django_redis.serializers.json.JSONSerializer",  # Sử dụng JSON
+#             "SERIALIZER": "django_redis.serializers.json.JSONSerializer",
 #         },
 #     }
 # }
 
 CACHES = {
-    "default": {  # Định nghĩa cache mặc định
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",  # Dùng bộ nhớ RAM cục bộ
-        "LOCATION": "1",  # Mã định danh (ID) của cache, có thể đặt tên tùy ý
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "1",
     }
 }

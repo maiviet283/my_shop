@@ -141,7 +141,6 @@ Nếu file tồn tại, nghĩa là Gunicorn đang chạy đúng.
 ## **12. Cấp quyền truy cập**
 ```sh
 sudo chmod 755 /home/maiviet
-sudo find /home/maiviet/my_shop/staticfiles/ -type f -exec chmod 644 {} \;
 sudo find /home/maiviet/my_shop/staticfiles/ -type d -exec chmod 755 {} \;
 ```
 

@@ -25,7 +25,6 @@ class GoogleLoginView(APIView):
             return Response({'error': 'Thiếu access_token.'}, status=400)
 
         try:
-            # Lấy thông tin user từ Google
             user_info_url = "https://www.googleapis.com/oauth2/v3/userinfo"
             headers = {"Authorization": f"Bearer {access_token}"}
             response = requests.get(user_info_url, headers=headers)
@@ -37,7 +36,6 @@ class GoogleLoginView(APIView):
             email = user_data.get('email')
             base_username = email.split('@')[0]
 
-            # Tìm user theo email, nếu chưa tồn tại thì tạo
             user = CustomerUser.objects.filter(email=email).first()
             if user:
                 created = False
@@ -51,7 +49,6 @@ class GoogleLoginView(APIView):
                 Cart.objects.create(user=user)
                 created = True
 
-            # Tạo JWT token thủ công
             refresh = RefreshToken()
             refresh['id'] = user.id
             refresh['username'] = user.username

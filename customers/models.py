@@ -14,7 +14,6 @@ class CustomerUser(models.Model):
         message="Số điện thoại phải có định dạng hợp lệ (9-15 chữ số, có thể bắt đầu bằng +)."
     )
 
-    # Thông tin cơ bản
     avatar = models.ImageField(upload_to='customers/avatars/%Y/%m/', blank=True, null=True)
     full_name = models.CharField(max_length=255, blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
@@ -36,10 +35,10 @@ class CustomerUser(models.Model):
     )
     address = models.TextField(blank=True, null=True)
     username = models.CharField(max_length=150, unique=True)
-    password = models.CharField(max_length=128)  # Độ dài mặc định như User Django
-    date_joined = models.DateTimeField(default=timezone.now)  # Ngày tạo tài khoản
-    updated_at = models.DateTimeField(auto_now=True)  # Ngày cập nhật cuối
-    is_active = models.BooleanField(default=True)  # Trạng thái tài khoản
+    password = models.CharField(max_length=128)
+    is_active = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "Khách Hàng"

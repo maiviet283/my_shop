@@ -18,9 +18,9 @@ class GlobalRateLimitMiddleware:
         if not client_ip:
             return self.get_response(request)
 
-        limit = 50  # Giới hạn request
-        timeframe = 5  # 5 giây kiểm tra
-        block_time = 7  # Nếu quá giới hạn, chặn trong 3 giây
+        limit = 50
+        timeframe = 5
+        block_time = 7
 
         cache_key = f"rl:{client_ip}"
         block_key = f"blocked:{client_ip}"
@@ -34,8 +34,8 @@ class GlobalRateLimitMiddleware:
 
         if request_count >= limit:
             logger.warning(f"IP {client_ip} bị chặn do quá nhiều request!")
-            cache.set(block_key, 1, timeout=block_time)  # Chặn trong 7 giây
-            cache.delete(cache_key)  # Xóa số request hiện tại
+            cache.set(block_key, 1, timeout=block_time)
+            cache.delete(cache_key)
             return self.handle_rate_limit(request)
 
         # Tăng số lượng request và đặt lại thời gian hết hạn của cache

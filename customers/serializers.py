@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.hashers import make_password, check_password
 from .models import CustomerUser
 
+
 # Lấy Toàn Bộ Thông Tin Người Dùng
 class CustomerUserSerializer(serializers.ModelSerializer):
     class Meta:

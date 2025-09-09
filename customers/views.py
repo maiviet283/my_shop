@@ -6,7 +6,6 @@ from rest_framework_simplejwt.exceptions import InvalidToken,TokenError
 from rest_framework.permissions import AllowAny,IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.shortcuts import render
 
 from .send_email import send_profile_view_email_async
 from .models import CustomerUser
@@ -36,7 +35,7 @@ class RegisterView(APIView):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            Cart.objects.create(user=user) # Tạo giỏ hàng cho người dùng mới
+            Cart.objects.create(user=user)
             return Response({
                 "message": "Đăng ký tài khoản thành công!",
                 "data": {"username": serializer.data.get("username")},
@@ -124,7 +123,7 @@ class UpdatePasswordView(APIView):
     def post(self, request):
         serializer = ChangePasswordSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-            serializer.update_password()  # Cập nhật mật khẩu
+            serializer.update_password()
             return Response({
                 "message": "Mật khẩu đã được thay đổi thành công."
             }, status=status.HTTP_200_OK)

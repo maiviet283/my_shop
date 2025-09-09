@@ -8,7 +8,7 @@ class FileSizeLimitMiddleware:
 
     def __init__(self, get_response):
         self.get_response = get_response
-        self.max_upload_size = 500 * 1024  # 500 KB
+        self.max_upload_size = 500 * 1024
 
     def __call__(self, request):
         if request.method in ["PUT"] and request.FILES:
