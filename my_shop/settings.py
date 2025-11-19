@@ -1,9 +1,9 @@
-from pathlib import Path
 import os
-from datetime import timedelta
 import logging
-from logging import config
+import json
+from pathlib import Path
 from dotenv import load_dotenv
+from datetime import timedelta, datetime
 
 load_dotenv()
 
@@ -96,8 +96,8 @@ MIDDLEWARE = [
     # Thêm Middleware giới hạn request toàn hệ thống    
     "my_shop.middlewares.rate_limit_middleware.GlobalRateLimitMiddleware",
     
-    "my_shop.middlewares.elk_logging.ELKLoggingMiddleware",
-
+    "my_shop.middlewares.logging_middleware.RequestResponseLoggingMiddleware",
+    
 ]
 
 
@@ -256,24 +256,53 @@ CACHES = {
     }
 }
 
-# CẤU HÌNH LOGGING - TẮT TOÀN BỘ LOG MẶC ĐỊNH
+class JsonFormatter(logging.Formatter):
+    def format(self, record):
+        log_data = {
+            "timestamp": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
+            "level": record.levelname,
+        }
+
+        # message gốc (nếu không ghi gì thì message = "request log")
+        if record.msg:
+            log_data["message"] = record.getMessage()
+
+        # merge extra fields
+        if hasattr(record, "extra"):
+            log_data.update(record.extra)
+
+        return json.dumps(log_data, ensure_ascii=False)
+
+
+
 LOGGING = {
     "version": 1,
-    "disable_existing_loggers": True,  # TẮT HẾT
+    "disable_existing_loggers": False,
+
+    "formatters": {
+        "json": {
+            "()": JsonFormatter,
+        }
+    },
+
     "handlers": {
-        "null": {
-            "class": "logging.NullHandler",
+        "daily_file": {
+            "level": "INFO",
+            "class": "utils.logging_handlers.DailyLogFileHandler",
+            "dirname": os.path.join(BASE_DIR, "logs"),
+            "prefix": "django-logs",
+            "formatter": "json",
+            "when": "midnight",
+            "encoding": "utf-8",
+            "utc": False,
+            },
+        },
+
+    "loggers": {
+        "django.request": {
+            "handlers": ["daily_file"],
+            "level": "INFO",
+            "propagate": False,
         },
     },
-    "root": {
-        "handlers": ["null"],
-        "level": "INFO",
-    },
 }
-
-# TẮT DJANGO SERVER LOG HOÀN TOÀN
-import logging
-from django.core.servers import basehttp
-
-# Override method log_message của WSGIRequestHandler để không log gì cả
-basehttp.WSGIRequestHandler.log_message = lambda self, format, *args: None
