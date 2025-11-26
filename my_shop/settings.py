@@ -46,11 +46,6 @@ DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -96,7 +91,7 @@ MIDDLEWARE = [
     # Thêm Middleware giới hạn request toàn hệ thống    
     "my_shop.middlewares.rate_limit_middleware.GlobalRateLimitMiddleware",
     
-    "my_shop.middlewares.logging_middleware.RequestResponseLoggingMiddleware",
+    "my_shop.middlewares.logging_middleware.AdvancedSecurityLoggingMiddleware",
     
 ]
 
@@ -294,9 +289,8 @@ LOGGING = {
             "formatter": "json",
             "when": "midnight",
             "encoding": "utf-8",
-            "utc": False,
-            },
         },
+    },
 
     "loggers": {
         "django.request": {
@@ -306,3 +300,4 @@ LOGGING = {
         },
     },
 }
+
