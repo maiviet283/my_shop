@@ -1,5 +1,4 @@
 import time
-import json
 import re
 import logging
 from django.utils.deprecation import MiddlewareMixin
@@ -90,6 +89,9 @@ class AdvancedSecurityLoggingMiddleware(MiddlewareMixin):
             "type": "suspicious" if attack_type else "normal",
         }
 
-        logger.warning("possible attack", extra={"extra": log_data})
+        if attack_type:
+            logger.warning("possible attack", extra={"extra": log_data})
+        else:
+            logger.info("normal request", extra={"extra": log_data})
 
         return response
