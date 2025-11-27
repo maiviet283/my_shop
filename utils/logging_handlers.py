@@ -1,6 +1,14 @@
 import os
+import logging
 from logging.handlers import TimedRotatingFileHandler
 from datetime import datetime
+
+class IgnoreFaviconFilter(logging.Filter):
+    def filter(self, record):
+        msg = getattr(record, "msg", "")
+        extra = getattr(record, "extra", {})
+        path = extra.get("path") or ""
+        return path != "/favicon.ico"
 
 class DailyLogFileHandler(TimedRotatingFileHandler):
 

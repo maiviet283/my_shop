@@ -273,13 +273,14 @@ class JsonFormatter(logging.Formatter):
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-
     "formatters": {
-        "json": {
-            "()": JsonFormatter,
-        }
+        "json": {"()": JsonFormatter},
     },
-
+    "filters": {
+        "ignore_favicon": {
+            "()": "utils.logging_handlers.IgnoreFaviconFilter",
+        },
+    },
     "handlers": {
         "daily_file": {
             "level": "INFO",
@@ -287,11 +288,9 @@ LOGGING = {
             "dirname": os.path.join(BASE_DIR, "logs"),
             "prefix": "django-logs",
             "formatter": "json",
-            "when": "midnight",
-            "encoding": "utf-8",
+            "filters": ["ignore_favicon"],
         },
     },
-
     "loggers": {
         "django.request": {
             "handlers": ["daily_file"],
@@ -300,4 +299,3 @@ LOGGING = {
         },
     },
 }
-
