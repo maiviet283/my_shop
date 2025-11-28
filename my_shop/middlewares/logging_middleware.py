@@ -1,9 +1,10 @@
 import time
+from datetime import datetime
 import re
 import logging
 from django.utils.deprecation import MiddlewareMixin
 
-logger = logging.getLogger("django.request")
+logger = logging.getLogger("unified")
 
 
 SQLI_PATTERNS = [
@@ -131,75 +132,70 @@ XSS_PATTERNS = [
     r"(?i)innerHTML\s*=",
 ]
 
+class UnifiedSecurityMiddleware(MiddlewareMixin):
 
-class AdvancedSecurityLoggingMiddleware(MiddlewareMixin):
-
-    def detect_attack(self, text: str):
-        if not text:
+    def detect(self, text):
+        if not text: 
             return None
-
         for p in SQLI_PATTERNS:
             if re.search(p, text):
                 return "sql_injection"
-
         for p in XSS_PATTERNS:
             if re.search(p, text):
                 return "xss"
-
         return None
 
     def process_request(self, request):
         request._start_time = time.time()
-
-        if request.method in ("POST", "PUT", "PATCH"):
-            try:
-                request._body_data = request.body.decode("utf-8", errors="ignore")
-            except:
-                request._body_data = None
-        else:
+        try:
+            request._body_data = (
+                request.body.decode("utf-8", errors="ignore")
+                if request.method in ("POST", "PUT", "PATCH")
+                else None
+            )
+        except:
             request._body_data = None
 
-        return None
-
     def process_response(self, request, response):
+        if not hasattr(request, "_start_time"):
+            return response
+
         duration = round((time.time() - request._start_time) * 1000, 2)
 
         full_path = request.get_full_path()
         query_params = request.META.get("QUERY_STRING", "")
-        user_agent = request.META.get("HTTP_USER_AGENT", "")
-        ip = request.META.get("REMOTE_ADDR") or request.META.get("HTTP_X_FORWARDED_FOR")
-
         body = getattr(request, "_body_data", None)
+        combined = f"{full_path} {query_params} {body or ''}"
 
-        combined_text = " ".join([
-            str(full_path), str(query_params), str(body or "")
-        ])
-
-        attack_type = self.detect_attack(combined_text)
+        attack = self.detect(combined)
 
         log_data = {
-            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "event": "http_request",
             "method": request.method,
             "path": request.path,
             "full_path": full_path,
             "query_params": query_params,
             "body": body[:500] if body else None,
+
             "status_code": response.status_code,
             "duration_ms": duration,
             "content_length": len(getattr(response, "content", b"")),
+
             "user": {
                 "authenticated": request.user.is_authenticated,
-                "username": str(request.user) if request.user.is_authenticated else None,
+                "username": str(request.user) if request.user.is_authenticated else None
             },
-            "ip": ip,
-            "user_agent": user_agent,
-            "attack": attack_type,
-            "type": "suspicious" if attack_type else "normal",
+
+            "ip": request.headers.get("X-Forwarded-For") or request.META.get("REMOTE_ADDR"),
+            "user_agent": request.headers.get("User-Agent"),
+
+            "attack": attack,
+            "type": "suspicious" if attack else "normal",
         }
 
-        if attack_type:
-            logger.warning("possible attack", extra={"extra": log_data})
+        if attack:
+            logger.warning("attack_detected", extra={"extra": log_data})
         else:
-            logger.info("normal request", extra={"extra": log_data})
+            logger.info("http_request", extra={"extra": log_data})
 
         return response

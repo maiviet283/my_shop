@@ -1,0 +1,92 @@
+{
+    "timestamp": "2025-11-28 02:09:25",
+    "level": "INFO",
+    "event": "http_request",
+    "logger": "unified",
+    "method": "POST",
+    "path": "/admin/login/",
+    "full_path": "/admin/login/?next=/admin/",
+    "query_params": "next=/admin/",
+    "body": "csrfmiddlewaretoken=uRhNEOOOFwtHOnWaOZgLGFii9PU2NBKn3QNN08ibxUJOAbU063Fsohp6uh5RAgen&username=11&password=11",
+    "status_code": 200,
+    "duration_ms": 533.48,
+    "content_length": 3396,
+    "user": {
+        "authenticated": false,
+        "username": null
+    },
+    "ip": "127.0.0.1",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+    "attack": null,
+    "type": "normal",
+    "message": "http_request"
+}
+{
+    "timestamp": "2025-11-28 02:09:29",
+    "level": "INFO",
+    "event": "http_request",
+    "logger": "unified",
+    "method": "POST",
+    "path": "/api/customers/login/",
+    "full_path": "/api/customers/login/",
+    "query_params": "",
+    "body": "password=password123&username=jessica81",
+    "status_code": 200,
+    "duration_ms": 500.31,
+    "content_length": 590,
+    "user": {
+        "authenticated": false,
+        "username": null
+    },
+    "ip": "127.0.0.1",
+    "user_agent": "PostmanRuntime/7.49.1",
+    "attack": null,
+    "type": "normal",
+    "message": "http_request"
+}
+{
+    "timestamp": "2025-11-28 02:09:32",
+    "level": "INFO",
+    "event": "http_request",
+    "logger": "unified",
+    "method": "POST",
+    "path": "/api/customers/login/",
+    "full_path": "/api/customers/login/",
+    "query_params": "",
+    "body": "password=password123%27--&username=jessica81",
+    "status_code": 400,
+    "duration_ms": 487.1,
+    "content_length": 64,
+    "user": {
+        "authenticated": false,
+        "username": null
+    },
+    "ip": "127.0.0.1",
+    "user_agent": "PostmanRuntime/7.49.1",
+    "attack": null,
+    "type": "normal",
+    "message": "http_request"
+}
+{
+    "timestamp": "2025-11-28 02:09:33",
+    "level": "INFO",
+    "event": "http_request",
+    "logger": "unified",
+    "method": "POST",
+    "path": "/api/customers/login/",
+    "full_path": "/api/customers/login/",
+    "query_params": "",
+    "body": "password=password123%27--&username=jessica81",
+    "status_code": 400,
+    "duration_ms": 509.02,
+    "content_length": 64,
+    "user": {
+        "authenticated": false,
+        "username": null
+    },
+    "ip": "127.0.0.1",
+    "user_agent": "PostmanRuntime/7.49.1",
+    "attack": null,
+    "type": "normal",
+    "message": "http_request"
+}

@@ -91,7 +91,7 @@ MIDDLEWARE = [
     # Thêm Middleware giới hạn request toàn hệ thống    
     "my_shop.middlewares.rate_limit_middleware.GlobalRateLimitMiddleware",
     
-    "my_shop.middlewares.logging_middleware.AdvancedSecurityLoggingMiddleware",
+    "my_shop.middlewares.logging_middleware.UnifiedSecurityMiddleware",
     
 ]
 
@@ -161,7 +161,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+#TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Ho_Chi_Minh'
 
 USE_I18N = True
 
@@ -251,51 +252,43 @@ CACHES = {
     }
 }
 
-class JsonFormatter(logging.Formatter):
-    def format(self, record):
-        log_data = {
-            "timestamp": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
-            "level": record.levelname,
-        }
-
-        # message gốc (nếu không ghi gì thì message = "request log")
-        if record.msg:
-            log_data["message"] = record.getMessage()
-
-        # merge extra fields
-        if hasattr(record, "extra"):
-            log_data.update(record.extra)
-
-        return json.dumps(log_data, ensure_ascii=False)
-
-
 
 LOGGING = {
     "version": 1,
-    "disable_existing_loggers": False,
+    "disable_existing_loggers": True,
+
     "formatters": {
-        "json": {"()": JsonFormatter},
+        "json": {"()": "utils.logging_handlers.UnifiedJSONFormatter"},
     },
-    "filters": {
-        "ignore_favicon": {
-            "()": "utils.logging_handlers.IgnoreFaviconFilter",
-        },
-    },
+
     "handlers": {
-        "daily_file": {
+        "unified_file": {
             "level": "INFO",
-            "class": "utils.logging_handlers.DailyLogFileHandler",
-            "dirname": os.path.join(BASE_DIR, "logs"),
+            "class": "utils.logging_handlers.UnifiedDailyFileHandler",
+            "dirname": BASE_DIR / "logs",
             "prefix": "django-logs",
             "formatter": "json",
-            "filters": ["ignore_favicon"],
         },
     },
+
     "loggers": {
-        "django.request": {
-            "handlers": ["daily_file"],
+        # middleware bạn sẽ dùng logger "unified"
+        "unified": {
+            "handlers": ["unified_file"],
             "level": "INFO",
             "propagate": False,
         },
+
+        # tắt toàn bộ của AXES
+        "axes": {"handlers": [], "level": "CRITICAL", "propagate": False},
+        "axes.watch_login": {"handlers": [], "level": "CRITICAL", "propagate": False},
+        "axes.handlers": {"handlers": [], "level": "CRITICAL", "propagate": False},
+        "axes.attempts": {"handlers": [], "level": "CRITICAL", "propagate": False},
+    },
+
+    # Tất cả logger còn lại → root → unified format
+    "root": {
+        "handlers": ["unified_file"],
+        "level": "INFO",
     },
 }
